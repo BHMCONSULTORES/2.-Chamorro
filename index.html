@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador documentos</title>
+    <style>
+        /* Estilos generales para una apariencia limpia */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Gibson", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 15px;
+        }
+
+        /* Estilo para el campo de búsqueda */
+        #filtro-tabla {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+        }
+
+        /* Estilos para la tabla */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+
+        th, td, li, details, summary, ul  {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        /* Estilo para el encabezado de la tabla */
+        thead th {
+            background-color: #334682; /* Un color similar al de Esri */
+            color: white;
+            position: sticky; /* Encabezado fijo */
+            top: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <input type="text" id="filtro-tabla" onkeyup="filtrar()" placeholder="Buscar en documentos Predio 2 Cruz Chamorro...">
+
+    <table id="mi-tabla">
+        <thead>
+            <tr>
+                <th>Documento</th>
+                <th>Enlace</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Acreditación de la propiedad</td><td><a href="https://drive.google.com/file/d/14d51rMZLgyQOQs0VEz__bPddn-9YVUCE/view?usp=drive_link" Target="_blank">Predio 2_ Autorización de subdivisión predio y valor de la operación</a></td></tr>
+            <tr><td>Contrato Igasamex</td><td><a href="https://drive.google.com/file/d/1k1AVZ0UyrLUysfw3o1dC_UMaKGKtTCbp/view?usp=drive_link" Target="_blank">Predio 2_Instrumento notarial dervidumbre voluntaria - Cruz Chamorro</a></td></tr>
+            <tr><td>Contrato Igasamex</td><td><a href="https://drive.google.com/file/d/1xuP_3TIV1OSIACSHDS-qmZGCggwm-l1F/view?usp=drive_link" Target="_blank">Predio 2_Rectificación de servidumbre voluntaria</a></td></tr>
+            <tr><td>Permisos</td><td><a href="https://drive.google.com/file/d/1ihc8pJI4LiOt42650ZIUaYlg94z6IAt8/view?usp=drive_link" target="_blank">Predio 2_Certificado de anotaciónmarginal de PEMEX</a></td></tr>
+			<tr><td>Informe final</td><td><a href="https://drive.google.com/file/d/1zqpT4pEOsbv76mNNi88MR_hOaY-xNp_S/view?usp=drive_link" target="_blank">Predio 2_Informe final de Cruz Chamorro</a></td></tr>
+        </tbody>
+    </table>
+	<details>
+		<summary>📁 Permisos y Licencias</summary>
+			<ul><a href="https://drive.google.com/file/d/1FLCptHk9qmdeVsgl6fp6ih-gLJGaIZ90/view?usp=drive_link" 
+					Target="_blank">Derecho de vía_Información fundamento derecho de vía</a></ul>
+			<ul><a href="https://drive.google.com/file/d/1uuSD-ND6jf_ImHtiKR8Owv9KYgPcHGbh/view?usp=drive_link" 
+					Target="_blank">Permisos - Permiso de construcción ramal de gas</a></ul>
+			<ul><a href="https://drive.google.com/file/d/1qh4YbJmySRjcEnN5lsLCiv1Ls_WY32AQ/view?usp=drive_link" 
+					Target="_blank">Permisos - Permiso de cruzamiento de carretera</a></ul>
+			<ul><a href="https://drive.google.com/file/d/1PRZd6riMe073lXuKt_QLhJG2Sk-O_un2/view?usp=drive_link" 
+					Target="_blank">Permisos - Construcción cruzamiento de carrtera</a></ul>
+			<ul><a href="https://drive.google.com/file/d/1TkgSQ4arkoKmsjiqkvEvn91a4bawNnQA/view?usp=drive_link" 
+					Target="_blank">Visto bueno - ambiental</a></ul>
+	</details>
+<script>
+ function filtrar() {
+            // 1. Obtener los elementos del DOM
+            const input = document.getElementById("filtro-tabla");
+            const filtro = input.value.toUpperCase(); // Convertir a mayúsculas para no distinguir
+            const tabla = document.getElementById("mi-tabla");
+            const filas = tabla.getElementsByTagName("tr");
+
+            // 2. Recorrer todas las filas de la tabla (empezando en 1 para omitir el encabezado)
+            for (let i = 1; i < filas.length; i++) {
+                let celdas = filas[i].getElementsByTagName("td");
+                let coincidencia = false; // Bandera para saber si se encontró en alguna celda de la fila
+
+                // 3. Recorrer todas las celdas de la fila actual
+                for (let j = 0; j < celdas.length; j++) {
+                    if (celdas[j]) {
+                        let textoCelda = celdas[j].textContent || celdas[j].innerText;
+                        // 4. Si el texto de CUALQUIER celda coincide, marca la bandera y detiene la búsqueda en esta fila
+                        if (textoCelda.toUpperCase().indexOf(filtro) > -1) {
+                            coincidencia = true;
+                            break; // Detiene el bucle de celdas, ya encontramos una coincidencia
+                        }
+                    }
+                }
+
+                // 5. Muestra u oculta la fila basado en si se encontró una coincidencia
+                if (coincidencia) {
+                    filas[i].style.display = "";
+                } else {
+                    filas[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
